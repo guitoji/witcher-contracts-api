@@ -1,0 +1,37 @@
+create table witcher_school (
+    id uuid not null primary key,
+    name varchar(30) not null
+);
+
+create table kingdom (
+    id uuid not null primary key,
+    name varchar(30) not null
+);
+
+create table monster (
+    id uuid not null primary key,
+    creature_name varchar(30) not null,
+    classification varchar(30) not null,
+    constraint chk_classification check(classification in('BEASTS', 'CURSED_ONES', 'DRACONIDS', 'ELEMENTALS', 'HYBRIDS', 'INSECTOIDS', 'NECROPHAGES', 'OGROIDS', 'RELICTS', 'SPECTERS', 'VAMPIRES'))
+);
+
+create table witcher (
+    id uuid not null primary key,
+    name varchar(40) not null,
+    mastery varchar(30) not null,
+    id_school uuid not null references witcher_school(id),
+    constraint chk_mastery check(mastery in('APPRENTICE', 'ADEPTO', 'EXPERT', 'MASTER', 'GRANDMASTER'))
+);
+
+create table contract (
+    id uuid not null primary key
+    title varchar(40) not null,
+    bounty numeric(10,2) not null,
+    description varchar(255) not null,
+    status varchar(25) not null,
+    nivel varchar(25) not null,
+    id_kingdom uuid not null references kingdom(id),
+    id_monster uuid not null references monster(id),
+    constraint chk_status check(status in('OPEN', 'CONCLUDED', 'CLOSED')),
+    constraint chk_nivel check(nivel in('GRANDMASTER', 'MASTER', 'RANK_A', 'RANK_B', 'RANK_C', 'RANK_D'))
+);

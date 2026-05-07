@@ -21,7 +21,7 @@ public class Monster {
     @Column(name = "creature_name")
     private String creatureName;
 
-    @Column(name = "class")
+    @Column(name = "classification")
     @Enumerated(EnumType.STRING)
     private MonsterClassification classification;
 }
