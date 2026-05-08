@@ -21,6 +21,6 @@ public class WitcherSchool {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "witcher_school", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "school", fetch = FetchType.LAZY)
     private List<Witcher> witchers;
 }
