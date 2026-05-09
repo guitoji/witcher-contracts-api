@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public record ResultWitcherSchoolDTO(
         UUID id,
-        String name,
-        List<Witcher> witchers
+        String name
 ) {
 }

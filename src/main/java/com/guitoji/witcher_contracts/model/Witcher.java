@@ -21,11 +21,11 @@ public class Witcher {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_school")
-    private WitcherSchool school;
-
     @Column(name = "mastery")
     @Enumerated(EnumType.STRING)
     private WitcherMastery mastery;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_school")
+    private WitcherSchool school;
 }

@@ -17,6 +17,4 @@ public interface WitcherSchoolMapper {
 
     @Mapping(target = "witchers", ignore = true)
     public ResultWitcherSchoolDTO toDTO(WitcherSchool witcherSchool);
-
-    public ResultWitcherSchoolByName getByNameDTO(WitcherSchool witcherSchool);
 }
