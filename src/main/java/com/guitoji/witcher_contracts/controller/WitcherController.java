@@ -27,4 +27,10 @@ public class WitcherController implements GenericController {
     public ResponseEntity<ResultWitcherDTO> searchById(@PathVariable String id) {
         return ResponseEntity.ok(witcherService.findById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        witcherService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

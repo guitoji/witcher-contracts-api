@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,5 +31,15 @@ public class WitcherService {
         return witcherRepository.findById(UUID.fromString(id))
                 .map(witcherMapper::toDTO)
                 .orElseThrow(() -> new NotFoundException("Witcher not found"));
+    }
+
+    @Transactional
+    public void delete(String id) {
+        Optional<Witcher> witcherOptional = witcherRepository.findById(UUID.fromString(id));
+
+        if (witcherOptional.isEmpty()) {
+            throw new NotFoundException("Witcher not found");
+        }
+        witcherRepository.delete(witcherOptional.get());
     }
 }
