@@ -42,4 +42,25 @@ public class WitcherService {
         }
         witcherRepository.delete(witcherOptional.get());
     }
+
+    @Transactional
+    public ResultWitcherDTO update(String id, WitcherDTO dto) {
+        return witcherRepository.findById(UUID.fromString(id))
+                .map(witcher -> {
+                    if (witcher.getSchool().getId() != dto.idSchool()) {
+                        Witcher temporaryWitcher = witcherMapper.toEntity(dto);
+
+                        witcher.setSchool(temporaryWitcher.getSchool());
+                        witcher.setName(temporaryWitcher.getName());
+                        witcher.setMastery(temporaryWitcher.getMastery());
+
+                        return witcherMapper.toDTO(witcherRepository.save(witcher));
+                    }
+
+                    witcher.setName(dto.name());
+                    witcher.setMastery(dto.mastery());
+
+                    return witcherMapper.toDTO(witcherRepository.save(witcher));
+                }).orElseThrow(() -> new NotFoundException("Witcher not found"));
+    }
 }

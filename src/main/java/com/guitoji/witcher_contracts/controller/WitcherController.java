@@ -33,4 +33,9 @@ public class WitcherController implements GenericController {
         witcherService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResultWitcherDTO> update(@PathVariable String id, @RequestBody WitcherDTO dto) {
+        return ResponseEntity.ok(witcherService.update(id, dto));
+    }
 }
