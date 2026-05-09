@@ -1,7 +1,6 @@
 package com.guitoji.witcher_contracts.service;
 
 import com.guitoji.witcher_contracts.dto.request.WitcherSchoolDTO;
-import com.guitoji.witcher_contracts.dto.response.ResultWitcherSchoolByName;
 import com.guitoji.witcher_contracts.dto.response.ResultWitcherSchoolDTO;
 import com.guitoji.witcher_contracts.exception.NotFoundException;
 import com.guitoji.witcher_contracts.mapper.WitcherSchoolMapper;

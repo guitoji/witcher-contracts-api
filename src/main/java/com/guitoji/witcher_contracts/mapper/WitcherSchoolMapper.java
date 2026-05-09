@@ -1,7 +1,6 @@
 package com.guitoji.witcher_contracts.mapper;
 
 import com.guitoji.witcher_contracts.dto.request.WitcherSchoolDTO;
-import com.guitoji.witcher_contracts.dto.response.ResultWitcherSchoolByName;
 import com.guitoji.witcher_contracts.dto.response.ResultWitcherSchoolDTO;
 import com.guitoji.witcher_contracts.model.WitcherSchool;
 import org.mapstruct.Mapper;
@@ -15,6 +14,5 @@ public interface WitcherSchoolMapper {
     @Mapping(target = "witchers", ignore = true)
     public WitcherSchool toEntity(WitcherSchoolDTO dto);
 
-    @Mapping(target = "witchers", ignore = true)
     public ResultWitcherSchoolDTO toDTO(WitcherSchool witcherSchool);
 }

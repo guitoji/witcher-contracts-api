@@ -1,6 +1,7 @@
 package com.guitoji.witcher_contracts.controller;
 
 import com.guitoji.witcher_contracts.dto.request.WitcherDTO;
+import com.guitoji.witcher_contracts.dto.response.ResultWitcherDTO;
 import com.guitoji.witcher_contracts.service.WitcherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,10 @@ public class WitcherController implements GenericController {
     public ResponseEntity<Object> create(@Valid @RequestBody WitcherDTO dto) {
         URI locate = getHeaderLocation(witcherService.save(dto).getId());
         return ResponseEntity.created(locate).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultWitcherDTO> searchById(@PathVariable String id) {
+        return ResponseEntity.ok(witcherService.findById(id));
     }
 }
