@@ -31,7 +31,7 @@ public class WitcherSchoolController implements GenericController{
 
     @GetMapping
     public ResponseEntity<List<ResultWitcherSchoolDTO>> search(@RequestParam(required = true) String name) {
-        return ResponseEntity.ok(witcherSchoolService.getSchoolByName(name));
+        return ResponseEntity.ok(witcherSchoolService.findByName(name));
     }
 
     @DeleteMapping("/{id}")

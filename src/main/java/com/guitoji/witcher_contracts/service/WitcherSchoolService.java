@@ -38,8 +38,8 @@ public class WitcherSchoolService {
     }
 
     @Transactional(readOnly = true)
-    public List<ResultWitcherSchoolDTO> getSchoolByName(String name) {
-        return witcherSchoolRepository.findByNameContainingIgnoreCase(name)
+    public List<ResultWitcherSchoolDTO> findByName(String name) {
+        return witcherSchoolRepository.findAllByNameContainingIgnoreCase(name)
                 .stream()
                 .map(witcherSchoolMapper::toDTO)
                 .toList();
@@ -69,6 +69,11 @@ public class WitcherSchoolService {
 
     public WitcherSchool findByIdReturningWitcherSchool(UUID idSchool) {
         return witcherSchoolRepository.findById(idSchool)
+                .orElseThrow(() -> new NotFoundException("Witcher School not found"));
+    }
+
+    public WitcherSchool getWitcherSchoolToWitcherService(String name) {
+        return witcherSchoolRepository.findByNameContainingIgnoreCase(name)
                 .orElseThrow(() -> new NotFoundException("Witcher School not found"));
     }
 }

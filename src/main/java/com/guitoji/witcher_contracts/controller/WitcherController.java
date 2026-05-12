@@ -2,6 +2,7 @@ package com.guitoji.witcher_contracts.controller;
 
 import com.guitoji.witcher_contracts.dto.request.WitcherDTO;
 import com.guitoji.witcher_contracts.dto.response.ResultWitcherDTO;
+import com.guitoji.witcher_contracts.model.enums.WitcherMastery;
 import com.guitoji.witcher_contracts.service.WitcherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/witchers")
@@ -26,6 +28,14 @@ public class WitcherController implements GenericController {
     @GetMapping("/{id}")
     public ResponseEntity<ResultWitcherDTO> searchById(@PathVariable String id) {
         return ResponseEntity.ok(witcherService.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ResultWitcherDTO>> search(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) WitcherMastery mastery,
+            @RequestParam(required = false) String schoolName) {
+        return ResponseEntity.ok(witcherService.findByExample(name, mastery, schoolName));
     }
 
     @DeleteMapping("/{id}")
