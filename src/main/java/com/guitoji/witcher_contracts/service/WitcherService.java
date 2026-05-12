@@ -8,6 +8,7 @@ import com.guitoji.witcher_contracts.model.Witcher;
 import com.guitoji.witcher_contracts.model.WitcherSchool;
 import com.guitoji.witcher_contracts.model.enums.WitcherMastery;
 import com.guitoji.witcher_contracts.repository.WitcherRepository;
+import com.guitoji.witcher_contracts.validation.WitcherValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -24,11 +25,13 @@ public class WitcherService {
 
     private final WitcherRepository witcherRepository;
     private final WitcherMapper witcherMapper;
+    private final WitcherValidation witcherValidation;
     private final WitcherSchoolService witcherSchoolService;
 
     @Transactional
     public Witcher save(WitcherDTO dto) {
         Witcher witcher = witcherMapper.toEntity(dto);
+        witcherValidation.validate(witcher);
         return witcherRepository.save(witcher);
     }
 
@@ -82,6 +85,8 @@ public class WitcherService {
 
         witcher.setName(dto.name());
         witcher.setMastery(dto.mastery());
+
+        witcherValidation.validate(witcher);
         return witcherMapper.toDTO(witcherRepository.save(witcher));
     }
 }
