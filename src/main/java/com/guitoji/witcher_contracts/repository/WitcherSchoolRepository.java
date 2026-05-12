@@ -10,9 +10,11 @@ import java.util.UUID;
 
 @Repository
 public interface WitcherSchoolRepository extends JpaRepository<WitcherSchool, UUID> {
-    List<WitcherSchool> findByNameContainingIgnoreCase(String name);
+    List<WitcherSchool> findAllByNameContainingIgnoreCase(String name);
 
     Optional<WitcherSchool> findByName(String name);
+
+    Optional<WitcherSchool> findByNameContainingIgnoreCase(String name);
 
     boolean existsByName(String name);
 }

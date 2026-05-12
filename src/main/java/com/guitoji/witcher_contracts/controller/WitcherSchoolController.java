@@ -1,7 +1,6 @@
 package com.guitoji.witcher_contracts.controller;
 
 import com.guitoji.witcher_contracts.dto.request.WitcherSchoolDTO;
-import com.guitoji.witcher_contracts.dto.response.ResultWitcherSchoolByName;
 import com.guitoji.witcher_contracts.dto.response.ResultWitcherSchoolDTO;
 import com.guitoji.witcher_contracts.service.WitcherSchoolService;
 import jakarta.validation.Valid;
@@ -26,13 +25,13 @@ public class WitcherSchoolController implements GenericController{
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResultWitcherSchoolDTO> search(@PathVariable String id) {
+    public ResponseEntity<ResultWitcherSchoolDTO> searchById(@PathVariable String id) {
         return ResponseEntity.ok(witcherSchoolService.findById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ResultWitcherSchoolByName>> searchByName(@RequestParam(required = true) String name) {
-        return ResponseEntity.ok(witcherSchoolService.getSchoolByName(name));
+    public ResponseEntity<List<ResultWitcherSchoolDTO>> search(@RequestParam(required = true) String name) {
+        return ResponseEntity.ok(witcherSchoolService.findByName(name));
     }
 
     @DeleteMapping("/{id}")
