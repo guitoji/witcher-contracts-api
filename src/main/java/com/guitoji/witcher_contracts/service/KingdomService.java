@@ -1,12 +1,16 @@
 package com.guitoji.witcher_contracts.service;
 
 import com.guitoji.witcher_contracts.dto.request.KingdomDTO;
+import com.guitoji.witcher_contracts.dto.response.ResultKingdomDTO;
+import com.guitoji.witcher_contracts.exception.NotFoundException;
 import com.guitoji.witcher_contracts.mapper.KingdomMapper;
 import com.guitoji.witcher_contracts.model.Kingdom;
 import com.guitoji.witcher_contracts.repository.KingdomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +23,12 @@ public class KingdomService {
     public Kingdom save(KingdomDTO dto) {
         Kingdom kingdom = kingdomMapper.toEntity(dto);
         return kingdomRepository.save(kingdom);
+    }
+
+    @Transactional(readOnly = true)
+    public ResultKingdomDTO findById(String id) {
+        return kingdomRepository.findById(UUID.fromString(id))
+                .map(kingdomMapper::toDTO)
+                .orElseThrow(() -> new NotFoundException("Kingdom not found"));
     }
 }

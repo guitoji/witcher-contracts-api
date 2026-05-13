@@ -1,13 +1,11 @@
 package com.guitoji.witcher_contracts.controller;
 
 import com.guitoji.witcher_contracts.dto.request.KingdomDTO;
+import com.guitoji.witcher_contracts.dto.response.ResultKingdomDTO;
 import com.guitoji.witcher_contracts.service.KingdomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -22,5 +20,10 @@ public class KingdomController implements GenericController {
     public ResponseEntity<Object> create(@RequestBody KingdomDTO dto) {
         URI locate = getHeaderLocation(kingdomService.save(dto).getId());
         return ResponseEntity.created(locate).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultKingdomDTO> searchById(@PathVariable String id) {
+         return ResponseEntity.ok(kingdomService.findById(id));
     }
 }
