@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +25,14 @@ public class KingdomService {
     public Kingdom save(KingdomDTO dto) {
         Kingdom kingdom = kingdomMapper.toEntity(dto);
         return kingdomRepository.save(kingdom);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ResultKingdomDTO> findAllByName(String name) {
+        return kingdomRepository.findAllByNameContainingIgnoreCase(name)
+                .stream()
+                .map(kingdomMapper::toDTO)
+                .toList();
     }
 
     @Transactional(readOnly = true)
