@@ -6,6 +6,7 @@ import com.guitoji.witcher_contracts.exception.NotFoundException;
 import com.guitoji.witcher_contracts.mapper.KingdomMapper;
 import com.guitoji.witcher_contracts.model.Kingdom;
 import com.guitoji.witcher_contracts.repository.KingdomRepository;
+import com.guitoji.witcher_contracts.validation.KingdomValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,12 @@ public class KingdomService {
 
     private final KingdomRepository kingdomRepository;
     private final KingdomMapper kingdomMapper;
+    private final KingdomValidation kingdomValidation;
 
     @Transactional
     public Kingdom save(KingdomDTO dto) {
         Kingdom kingdom = kingdomMapper.toEntity(dto);
+        kingdomValidation.validate(kingdom);
         return kingdomRepository.save(kingdom);
     }
 
@@ -58,8 +61,8 @@ public class KingdomService {
                 .map(kingdom -> {
                     kingdom.setName(dto.name());
 
-                    kingdomRepository.save(kingdom);
-                    return kingdomMapper.toDTO(kingdom);
+                    kingdomValidation.validate(kingdom);
+                    return kingdomMapper.toDTO(kingdomRepository.save(kingdom));
                 }).orElseThrow(() -> new NotFoundException("Kingdom not found"));
     }
 }

@@ -60,10 +60,9 @@ public class WitcherSchoolService {
         return witcherSchoolRepository.findById(UUID.fromString(id))
                 .map(witcherSchool -> {
                     witcherSchool.setName(dto.name());
-                    witcherSchoolValidation.validate(witcherSchool);
 
-                    witcherSchoolRepository.save(witcherSchool);
-                    return witcherSchoolMapper.toDTO(witcherSchool);
+                    witcherSchoolValidation.validate(witcherSchool);
+                    return witcherSchoolMapper.toDTO(witcherSchoolRepository.save(witcherSchool));
                 }).orElseThrow(() -> new NotFoundException("Witcher School not found"));
     }
 
