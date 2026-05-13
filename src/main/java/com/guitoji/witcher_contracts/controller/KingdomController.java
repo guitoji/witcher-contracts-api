@@ -32,4 +32,9 @@ public class KingdomController implements GenericController {
         kingdomService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResultKingdomDTO> update(@PathVariable String id, @RequestBody KingdomDTO dto) {
+        return ResponseEntity.ok(kingdomService.update(id, dto));
+    }
 }

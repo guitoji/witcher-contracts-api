@@ -42,4 +42,15 @@ public class KingdomService {
         }
         kingdomRepository.delete(kingdomOptional.get());
     }
+
+    @Transactional
+    public ResultKingdomDTO update(String id, KingdomDTO dto) {
+        return kingdomRepository.findById(UUID.fromString(id))
+                .map(kingdom -> {
+                    kingdom.setName(dto.name());
+
+                    kingdomRepository.save(kingdom);
+                    return kingdomMapper.toDTO(kingdom);
+                }).orElseThrow(() -> new NotFoundException("Kingdom not found"));
+    }
 }
