@@ -26,4 +26,10 @@ public class KingdomController implements GenericController {
     public ResponseEntity<ResultKingdomDTO> searchById(@PathVariable String id) {
          return ResponseEntity.ok(kingdomService.findById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        kingdomService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

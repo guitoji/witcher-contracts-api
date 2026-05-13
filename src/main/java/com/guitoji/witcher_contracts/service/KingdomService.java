@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,5 +31,15 @@ public class KingdomService {
         return kingdomRepository.findById(UUID.fromString(id))
                 .map(kingdomMapper::toDTO)
                 .orElseThrow(() -> new NotFoundException("Kingdom not found"));
+    }
+
+    @Transactional
+    public void delete(String id) {
+        Optional<Kingdom> kingdomOptional = kingdomRepository.findById(UUID.fromString(id));
+
+        if (kingdomOptional.isEmpty()) {
+            throw new NotFoundException("Kingdom not found");
+        }
+        kingdomRepository.delete(kingdomOptional.get());
     }
 }
