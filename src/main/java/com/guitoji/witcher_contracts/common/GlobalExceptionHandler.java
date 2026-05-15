@@ -28,6 +28,12 @@ public class GlobalExceptionHandler {
         return new ErrorNotice(HttpStatus.BAD_REQUEST.value(), "Validation Error", errorFields);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorNotice handleIllegalArgumenteException(IllegalArgumentException e) {
+        return new ErrorNotice(HttpStatus.BAD_REQUEST.value(), e.getMessage(), List.of());
+    }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ErrorNotice handleNotFoundException(NotFoundException e) {

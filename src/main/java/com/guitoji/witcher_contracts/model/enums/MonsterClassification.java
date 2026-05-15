@@ -1,6 +1,6 @@
 package com.guitoji.witcher_contracts.model.enums;
 
-public enum MonsterClassification {
+public enum     MonsterClassification {
     BEASTS,
     CURSED_ONES,
     DRACONIDS,
