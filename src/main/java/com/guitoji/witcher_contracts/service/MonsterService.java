@@ -42,4 +42,15 @@ public class MonsterService {
         }
         monsterRepository.delete(monsterOptional.get());
     }
+
+    @Transactional(readOnly = true)
+    public ResultMonsterDTO update(String id, MonsterDTO dto) {
+        return monsterRepository.findById(UUID.fromString(id))
+                .map(monster -> {
+                    monster.setCreatureName(dto.creatureName());
+                    monster.setClassification(dto.classification());
+
+                    return monsterMapper.toDTO(monsterRepository.save(monster));
+                }).orElseThrow(() -> new NotFoundException("Monster not found"));
+    }
 }

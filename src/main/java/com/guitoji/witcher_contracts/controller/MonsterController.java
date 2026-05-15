@@ -33,4 +33,9 @@ public class MonsterController implements GenericController {
         monsterService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResultMonsterDTO> update(@PathVariable String id, @Valid @RequestBody MonsterDTO dto) {
+        return ResponseEntity.ok(monsterService.update(id, dto));
+    }
 }
