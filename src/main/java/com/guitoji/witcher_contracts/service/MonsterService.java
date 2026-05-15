@@ -43,7 +43,7 @@ public class MonsterService {
         monsterRepository.delete(monsterOptional.get());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public ResultMonsterDTO update(String id, MonsterDTO dto) {
         return monsterRepository.findById(UUID.fromString(id))
                 .map(monster -> {
