@@ -7,6 +7,7 @@ import com.guitoji.witcher_contracts.mapper.MonsterMapper;
 import com.guitoji.witcher_contracts.model.Monster;
 import com.guitoji.witcher_contracts.model.enums.MonsterClassification;
 import com.guitoji.witcher_contracts.repository.MonsterRepository;
+import com.guitoji.witcher_contracts.validation.MonsterValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -23,10 +24,12 @@ public class MonsterService {
 
     private final MonsterRepository monsterRepository;
     private final MonsterMapper monsterMapper;
+    private final MonsterValidation monsterValidation;
 
     @Transactional
     public Monster save(MonsterDTO dto) {
         Monster monster = monsterMapper.toEntity(dto);
+        monsterValidation.validate(monster);
         return monsterRepository.save(monster);
     }
 
@@ -73,6 +76,7 @@ public class MonsterService {
                     monster.setCreatureName(dto.creatureName());
                     monster.setClassification(dto.classification());
 
+                    monsterValidation.validate(monster);
                     return monsterMapper.toDTO(monsterRepository.save(monster));
                 }).orElseThrow(() -> new NotFoundException("Monster not found"));
     }
