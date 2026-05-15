@@ -5,11 +5,15 @@ import com.guitoji.witcher_contracts.dto.response.ResultMonsterDTO;
 import com.guitoji.witcher_contracts.exception.NotFoundException;
 import com.guitoji.witcher_contracts.mapper.MonsterMapper;
 import com.guitoji.witcher_contracts.model.Monster;
+import com.guitoji.witcher_contracts.model.enums.MonsterClassification;
 import com.guitoji.witcher_contracts.repository.MonsterRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +28,25 @@ public class MonsterService {
     public Monster save(MonsterDTO dto) {
         Monster monster = monsterMapper.toEntity(dto);
         return monsterRepository.save(monster);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ResultMonsterDTO> findByExample(String creatureName, MonsterClassification classification) {
+        Monster monster = new Monster();
+        monster.setCreatureName(creatureName);
+        monster.setClassification(classification);
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withIgnorePaths("id")
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example<Monster> example = Example.of(monster, matcher);
+
+        return monsterRepository.findAll(example)
+                .stream()
+                .map(monsterMapper::toDTO)
+                .toList();
     }
 
     @Transactional(readOnly = true)

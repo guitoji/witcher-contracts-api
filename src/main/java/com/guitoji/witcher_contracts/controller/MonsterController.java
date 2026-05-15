@@ -2,6 +2,7 @@ package com.guitoji.witcher_contracts.controller;
 
 import com.guitoji.witcher_contracts.dto.request.MonsterDTO;
 import com.guitoji.witcher_contracts.dto.response.ResultMonsterDTO;
+import com.guitoji.witcher_contracts.model.enums.MonsterClassification;
 import com.guitoji.witcher_contracts.service.MonsterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/monsters")
@@ -21,6 +23,13 @@ public class MonsterController implements GenericController {
     public ResponseEntity<Object> create(@Valid @RequestBody MonsterDTO dto) {
         URI locate = getHeaderLocation(monsterService.save(dto).getId());
         return ResponseEntity.created(locate).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ResultMonsterDTO>> search(
+            @RequestParam(required = false) String creatureName,
+            @RequestParam(required = false)MonsterClassification classification) {
+        return ResponseEntity.ok(monsterService.findByExample(creatureName, classification));
     }
 
     @GetMapping("/{id}")
