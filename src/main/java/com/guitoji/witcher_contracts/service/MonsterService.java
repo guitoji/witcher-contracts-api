@@ -26,9 +26,20 @@ public class MonsterService {
         return monsterRepository.save(monster);
     }
 
+    @Transactional(readOnly = true)
     public ResultMonsterDTO findById(String id) {
         return monsterRepository.findById(UUID.fromString(id))
                 .map(monsterMapper::toDTO)
                 .orElseThrow(() -> new NotFoundException("Monster not found"));
+    }
+
+    @Transactional
+    public void delete(String id) {
+        Optional<Monster> monsterOptional = monsterRepository.findById(UUID.fromString(id));
+
+        if (monsterOptional.isEmpty()) {
+            throw new NotFoundException("Monster not found");
+        }
+        monsterRepository.delete(monsterOptional.get());
     }
 }

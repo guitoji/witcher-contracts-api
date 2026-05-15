@@ -27,4 +27,10 @@ public class MonsterController implements GenericController {
     public ResponseEntity<ResultMonsterDTO> searchById(@PathVariable String id) {
         return ResponseEntity.ok(monsterService.findById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        monsterService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
