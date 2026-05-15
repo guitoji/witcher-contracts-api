@@ -1,14 +1,12 @@
 package com.guitoji.witcher_contracts.controller;
 
 import com.guitoji.witcher_contracts.dto.request.MonsterDTO;
+import com.guitoji.witcher_contracts.dto.response.ResultMonsterDTO;
 import com.guitoji.witcher_contracts.service.MonsterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -23,5 +21,10 @@ public class MonsterController implements GenericController {
     public ResponseEntity<Object> create(@Valid @RequestBody MonsterDTO dto) {
         URI locate = getHeaderLocation(monsterService.save(dto).getId());
         return ResponseEntity.created(locate).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultMonsterDTO> searchById(@PathVariable String id) {
+        return ResponseEntity.ok(monsterService.findById(id));
     }
 }

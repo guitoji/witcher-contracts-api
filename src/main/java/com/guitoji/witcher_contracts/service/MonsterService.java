@@ -1,11 +1,17 @@
 package com.guitoji.witcher_contracts.service;
 
 import com.guitoji.witcher_contracts.dto.request.MonsterDTO;
+import com.guitoji.witcher_contracts.dto.response.ResultMonsterDTO;
+import com.guitoji.witcher_contracts.exception.NotFoundException;
 import com.guitoji.witcher_contracts.mapper.MonsterMapper;
 import com.guitoji.witcher_contracts.model.Monster;
 import com.guitoji.witcher_contracts.repository.MonsterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -14,8 +20,15 @@ public class MonsterService {
     private final MonsterRepository monsterRepository;
     private final MonsterMapper monsterMapper;
 
+    @Transactional
     public Monster save(MonsterDTO dto) {
         Monster monster = monsterMapper.toEntity(dto);
         return monsterRepository.save(monster);
+    }
+
+    public ResultMonsterDTO findById(String id) {
+        return monsterRepository.findById(UUID.fromString(id))
+                .map(monsterMapper::toDTO)
+                .orElseThrow(() -> new NotFoundException("Monster not found"));
     }
 }
