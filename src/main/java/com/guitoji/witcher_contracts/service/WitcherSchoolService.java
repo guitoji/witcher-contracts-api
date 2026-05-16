@@ -66,7 +66,7 @@ public class WitcherSchoolService {
                 }).orElseThrow(() -> new NotFoundException("Witcher School not found"));
     }
 
-    public WitcherSchool findByIdReturningWitcherSchool(UUID idSchool) {
+    public WitcherSchool getWitcherSchoolToWitcher(UUID idSchool) {
         return witcherSchoolRepository.findById(idSchool)
                 .orElseThrow(() -> new NotFoundException("Witcher School not found"));
     }
