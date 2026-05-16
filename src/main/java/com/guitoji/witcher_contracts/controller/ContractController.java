@@ -11,4 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContractController implements GenericController {
 
     private ContractService contractService;
+
+
 }
