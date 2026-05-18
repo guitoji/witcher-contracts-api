@@ -1,6 +1,7 @@
 package com.guitoji.witcher_contracts.controller;
 
 import com.guitoji.witcher_contracts.dto.request.ContractDTO;
+import com.guitoji.witcher_contracts.dto.response.ResultContractDTO;
 import com.guitoji.witcher_contracts.service.ContractService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,10 @@ public class ContractController implements GenericController {
     public ResponseEntity<Object> create(@Valid @RequestBody ContractDTO dto) {
         URI locate = getHeaderLocation(contractService.save(dto).getId());
         return ResponseEntity.created(locate).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultContractDTO> searchById(@PathVariable String id) {
+        return ResponseEntity.ok(contractService.findById(id));
     }
 }
