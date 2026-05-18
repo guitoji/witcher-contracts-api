@@ -1,6 +1,7 @@
 package com.guitoji.witcher_contracts.mapper;
 
 import com.guitoji.witcher_contracts.dto.request.ContractDTO;
+import com.guitoji.witcher_contracts.dto.response.ResultContractDTO;
 import com.guitoji.witcher_contracts.model.Contract;
 import com.guitoji.witcher_contracts.model.Kingdom;
 import com.guitoji.witcher_contracts.model.Monster;
@@ -28,6 +29,10 @@ public abstract class ContractMapper {
     @Mapping(target = "kingdom", source = "idKingdom", qualifiedByName = "getKingdom")
     @Mapping(target = "monster", source = "idMonster", qualifiedByName = "getMonster")
     public abstract Contract toEntity(ContractDTO dto);
+
+    @Mapping(target = "kingdomDTO", source = "kingdom")
+    @Mapping(target = "monsterDTO", source = "monster")
+    public abstract ResultContractDTO toDTO(Contract contract);
 
     @Named("getKingdom")
     protected Kingdom getKingdom(UUID idKingdom) {
