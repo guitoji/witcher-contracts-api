@@ -27,4 +27,10 @@ public class ContractController implements GenericController {
     public ResponseEntity<ResultContractDTO> searchById(@PathVariable String id) {
         return ResponseEntity.ok(contractService.findById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        contractService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
