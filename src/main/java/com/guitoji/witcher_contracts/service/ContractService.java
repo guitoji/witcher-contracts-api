@@ -7,11 +7,17 @@ import com.guitoji.witcher_contracts.mapper.ContractMapper;
 import com.guitoji.witcher_contracts.model.Contract;
 import com.guitoji.witcher_contracts.model.Kingdom;
 import com.guitoji.witcher_contracts.model.Monster;
+import com.guitoji.witcher_contracts.model.enums.ContractNivel;
+import com.guitoji.witcher_contracts.model.enums.ContractStatus;
 import com.guitoji.witcher_contracts.repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,6 +34,42 @@ public class ContractService {
     public Contract save(ContractDTO dto) {
         Contract contract = contractMapper.toEntity(dto);
         return contractRepository.save(contract);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ResultContractDTO> findAll(
+            String title, BigDecimal bounty, ContractStatus status, ContractNivel nivel, String kingdomName, String creatureName) {
+
+        Contract contractExample = new Contract();
+
+        Kingdom kingdom = new Kingdom();
+        if (kingdomName != null) {
+            kingdom = kingdomService.getByName(kingdomName);
+            contractExample.setKingdom(kingdom);
+        }
+
+        Monster monster = new Monster();
+        if (creatureName != null) {
+            monster = monsterService.getByName(creatureName);
+            contractExample.setMonster(monster);
+        }
+
+        contractExample.setTitle(title);
+        contractExample.setBounty(bounty);
+        contractExample.setStatus(status);
+        contractExample.setNivel(nivel);
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withIgnorePaths("id", "description")
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example<Contract> example = Example.of(contractExample, matcher);
+
+        return contractRepository.findAll(example)
+                .stream()
+                .map(contractMapper::toDTO)
+                .toList();
     }
 
     @Transactional(readOnly = true)

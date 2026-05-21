@@ -14,4 +14,6 @@ public interface KingdomRepository extends JpaRepository<Kingdom, UUID> {
     List<Kingdom> findAllByNameContainingIgnoreCase(String name);
 
     Optional<Kingdom> findByName(String name);
+
+    Optional<Kingdom> findByNameContaining(String name);
 }
