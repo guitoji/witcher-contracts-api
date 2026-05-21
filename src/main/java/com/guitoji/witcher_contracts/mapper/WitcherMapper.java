@@ -28,6 +28,6 @@ public abstract class WitcherMapper {
 
     @Named("getWitcherSchool")
     protected WitcherSchool getWitcherSchool(UUID idSchool) {
-        return witcherSchoolService.findByIdReturningWitcherSchool(idSchool);
+        return witcherSchoolService.getWitcherSchoolToWitcher(idSchool);
     }
 }

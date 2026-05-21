@@ -11,5 +11,7 @@ import java.util.UUID;
 @Repository
 public interface MonsterRepository extends JpaRepository<Monster, UUID> {
 
+    Optional<Monster> findByCreatureNameContaining(String creatureName);
+
     Optional<Monster> findByCreatureNameAndClassification(String creatureName, MonsterClassification classification);
 }

@@ -4,6 +4,7 @@ import com.guitoji.witcher_contracts.dto.error.ErrorFields;
 import com.guitoji.witcher_contracts.dto.error.ErrorNotice;
 import com.guitoji.witcher_contracts.exception.DuplicatedEntityException;
 import com.guitoji.witcher_contracts.exception.NotFoundException;
+import com.guitoji.witcher_contracts.exception.OperationNotPermittedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,12 @@ public class GlobalExceptionHandler {
                 .toList();
 
         return new ErrorNotice(HttpStatus.BAD_REQUEST.value(), "Validation Error", errorFields);
+    }
+
+    @ExceptionHandler(OperationNotPermittedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorNotice handleOperationNotPermittedException(OperationNotPermittedException e) {
+        return new ErrorNotice(HttpStatus.BAD_REQUEST.value(), e.getMessage(), List.of());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

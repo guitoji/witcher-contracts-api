@@ -5,7 +5,6 @@ import com.guitoji.witcher_contracts.dto.response.ResultWitcherDTO;
 import com.guitoji.witcher_contracts.exception.NotFoundException;
 import com.guitoji.witcher_contracts.mapper.WitcherMapper;
 import com.guitoji.witcher_contracts.model.Witcher;
-import com.guitoji.witcher_contracts.model.WitcherSchool;
 import com.guitoji.witcher_contracts.model.enums.WitcherMastery;
 import com.guitoji.witcher_contracts.repository.WitcherRepository;
 import com.guitoji.witcher_contracts.validation.WitcherValidation;
@@ -80,7 +79,7 @@ public class WitcherService {
                 .orElseThrow(() -> new NotFoundException("Witcher not found"));
 
         if(!witcher.getSchool().getId().equals(dto.idSchool())) {
-            witcher.setSchool(witcherSchoolService.findByIdReturningWitcherSchool(dto.idSchool()));
+            witcher.setSchool(witcherSchoolService.getWitcherSchoolToWitcher(dto.idSchool()));
         }
 
         witcher.setName(dto.name());

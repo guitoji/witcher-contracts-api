@@ -29,14 +29,6 @@ public class Contract {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_kingdom")
-    private Kingdom kingdom;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_monster")
-    private Monster monster;
-
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ContractStatus status;
@@ -44,4 +36,12 @@ public class Contract {
     @Column(name = "nivel")
     @Enumerated(EnumType.STRING)
     private ContractNivel nivel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_kingdom")
+    private Kingdom kingdom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_monster")
+    private Monster monster;
 }

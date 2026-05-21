@@ -65,4 +65,20 @@ public class KingdomService {
                     return kingdomMapper.toDTO(kingdomRepository.save(kingdom));
                 }).orElseThrow(() -> new NotFoundException("Kingdom not found"));
     }
+
+    /**
+     *
+     * Methods used in other controllers
+     *
+     */
+
+    public Kingdom getKingdomToContract(UUID idKingdom) {
+        return kingdomRepository.findById(idKingdom)
+                .orElseThrow(() -> new NotFoundException("Kingdom not found"));
+    }
+
+    public Kingdom getByName(String name) {
+        return kingdomRepository.findByNameContaining(name)
+                .orElseThrow(() -> new NotFoundException("Kingdom not found"));
+    }
 }

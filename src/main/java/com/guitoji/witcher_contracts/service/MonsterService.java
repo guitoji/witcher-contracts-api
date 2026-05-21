@@ -80,4 +80,20 @@ public class MonsterService {
                     return monsterMapper.toDTO(monsterRepository.save(monster));
                 }).orElseThrow(() -> new NotFoundException("Monster not found"));
     }
+
+    /**
+     *
+     * Methods used in other controllers
+     *
+     */
+
+    public Monster getMonsterToContract(UUID idMonster) {
+        return monsterRepository.findById(idMonster)
+                .orElseThrow(() -> new NotFoundException("Monster not found"));
+    }
+
+    public Monster getByName(String creatureName) {
+        return monsterRepository.findByCreatureNameContaining(creatureName)
+                .orElseThrow(() -> new NotFoundException("Monster not found"));
+    }
 }
