@@ -33,4 +33,9 @@ public class ContractController implements GenericController {
         contractService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResultContractDTO> update(@PathVariable String id, @Valid @RequestBody ContractDTO dto) {
+        return ResponseEntity.ok(contractService.update(id, dto));
+    }
 }
