@@ -24,7 +24,7 @@ create table witcher (
 );
 
 create table contract (
-    id uuid not null primary key
+    id uuid not null primary key,
     title varchar(40) not null,
     bounty numeric(10,2) not null,
     description varchar(255) not null,
@@ -32,6 +32,6 @@ create table contract (
     nivel varchar(25) not null,
     id_kingdom uuid not null references kingdom(id),
     id_monster uuid not null references monster(id),
-    constraint chk_status check(status in('OPEN', 'CONCLUDED', 'CLOSED')),
+    constraint chk_status check(status in('OPEN', 'CONCLUDED', 'CLOSED', 'CANCELED')),
     constraint chk_nivel check(nivel in('GRANDMASTER', 'MASTER', 'RANK_A', 'RANK_B', 'RANK_C', 'RANK_D'))
 );

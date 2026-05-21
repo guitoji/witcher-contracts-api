@@ -10,6 +10,7 @@ import com.guitoji.witcher_contracts.model.Monster;
 import com.guitoji.witcher_contracts.model.enums.ContractNivel;
 import com.guitoji.witcher_contracts.model.enums.ContractStatus;
 import com.guitoji.witcher_contracts.repository.ContractRepository;
+import com.guitoji.witcher_contracts.validation.ContractValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -27,12 +28,14 @@ public class ContractService {
 
     private final ContractRepository contractRepository;
     private final ContractMapper contractMapper;
+    private final ContractValidation contractValidation;
     private final KingdomService kingdomService;
     private final MonsterService monsterService;
 
     @Transactional
     public Contract save(ContractDTO dto) {
         Contract contract = contractMapper.toEntity(dto);
+        contractValidation.validate(contract);
         return contractRepository.save(contract);
     }
 
@@ -86,6 +89,7 @@ public class ContractService {
         if (contractOptional.isEmpty()) {
             throw new NotFoundException("Contract not found");
         }
+        contractValidation.validateDelete(contractOptional.get());
         contractRepository.delete(contractOptional.get());
     }
 
